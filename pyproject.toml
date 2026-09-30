@@ -29,8 +29,8 @@ dependencies = [
     "uvicorn[standard]>=0.54.0",
 ]
 
-[project.scripts]
-underwriteos = "underwriteos:main"
+# [project.scripts]  # Disabled - no CLI entry point needed
+# underwriteos = "underwriteos:main"
 
 [build-system]
 requires = ["uv_build>=0.12.11,<0.13.0"]
