@@ -1,0 +1,326 @@
+{
+  "doc_type": "bank_statement",
+  "is_tampered": false,
+  "opening": "12153",
+  "closing": "45947.85",
+  "txns": [
+    {
+      "date": "2025-01-01",
+      "description": "ACH DEPOSIT",
+      "amount": "-819.69",
+      "balance": "11333.31"
+    },
+    {
+      "date": "2025-01-02",
+      "description": "STRIPE PAYOUT",
+      "amount": "1021.4",
+      "balance": "12354.71"
+    },
+    {
+      "date": "2025-01-02",
+      "description": "ACH DEPOSIT",
+      "amount": "-3055.24",
+      "balance": "9299.47"
+    },
+    {
+      "date": "2025-01-02",
+      "description": "AWS",
+      "amount": "-3792.21",
+      "balance": "5507.26"
+    },
+    {
+      "date": "2025-01-03",
+      "description": "PAYROLL",
+      "amount": "5625.45",
+      "balance": "11132.71"
+    },
+    {
+      "date": "2025-01-03",
+      "description": "CARD PURCH",
+      "amount": "4393.35",
+      "balance": "15526.06"
+    },
+    {
+      "date": "2025-01-03",
+      "description": "STRIPE PAYOUT",
+      "amount": "-3382.95",
+      "balance": "12143.11"
+    },
+    {
+      "date": "2025-01-03",
+      "description": "RENT",
+      "amount": "1456.15",
+      "balance": "13599.26"
+    },
+    {
+      "date": "2025-01-04",
+      "description": "CARD PURCH",
+      "amount": "-1098.78",
+      "balance": "12500.48"
+    },
+    {
+      "date": "2025-01-04",
+      "description": "CARD PURCH",
+      "amount": "-2189.49",
+      "balance": "10310.99"
+    },
+    {
+      "date": "2025-01-06",
+      "description": "ACH DEPOSIT",
+      "amount": "-1751.85",
+      "balance": "8559.14"
+    },
+    {
+      "date": "2025-01-06",
+      "description": "LOAN PMT",
+      "amount": "4691.85",
+      "balance": "13250.99"
+    },
+    {
+      "date": "2025-01-07",
+      "description": "PAYROLL",
+      "amount": "4393.3",
+      "balance": "17644.29"
+    },
+    {
+      "date": "2025-01-07",
+      "description": "STRIPE PAYOUT",
+      "amount": "-1971.69",
+      "balance": "15672.60"
+    },
+    {
+      "date": "2025-01-08",
+      "description": "LOAN PMT",
+      "amount": "-962.9",
+      "balance": "14709.70"
+    },
+    {
+      "date": "2025-01-08",
+      "description": "LOAN PMT",
+      "amount": "5094.52",
+      "balance": "19804.22"
+    },
+    {
+      "date": "2025-01-09",
+      "description": "CARD PURCH",
+      "amount": "-3090.7",
+      "balance": "16713.52"
+    },
+    {
+      "date": "2025-01-09",
+      "description": "PAYROLL",
+      "amount": "2352.81",
+      "balance": "19066.33"
+    },
+    {
+      "date": "2025-01-10",
+      "description": "STRIPE PAYOUT",
+      "amount": "1305.3",
+      "balance": "20371.63"
+    },
+    {
+      "date": "2025-01-10",
+      "description": "STRIPE PAYOUT",
+      "amount": "-2135.74",
+      "balance": "18235.89"
+    },
+    {
+      "date": "2025-01-10",
+      "description": "PAYROLL",
+      "amount": "965.92",
+      "balance": "19201.81"
+    },
+    {
+      "date": "2025-01-12",
+      "description": "PAYROLL",
+      "amount": "4812.88",
+      "balance": "24014.69"
+    },
+    {
+      "date": "2025-01-12",
+      "description": "PAYROLL",
+      "amount": "-3924.39",
+      "balance": "20090.30"
+    },
+    {
+      "date": "2025-01-12",
+      "description": "LOAN PMT",
+      "amount": "2001.7",
+      "balance": "22092.00"
+    },
+    {
+      "date": "2025-01-12",
+      "description": "PAYROLL",
+      "amount": "5251.76",
+      "balance": "27343.76"
+    },
+    {
+      "date": "2025-01-13",
+      "description": "AWS",
+      "amount": "-1953.97",
+      "balance": "25389.79"
+    },
+    {
+      "date": "2025-01-13",
+      "description": "RENT",
+      "amount": "443.14",
+      "balance": "25832.93"
+    },
+    {
+      "date": "2025-01-13",
+      "description": "AWS",
+      "amount": "-977.97",
+      "balance": "24854.96"
+    },
+    {
+      "date": "2025-01-13",
+      "description": "STRIPE PAYOUT",
+      "amount": "732.98",
+      "balance": "25587.94"
+    },
+    {
+      "date": "2025-01-14",
+      "description": "PAYROLL",
+      "amount": "-800.68",
+      "balance": "24787.26"
+    },
+    {
+      "date": "2025-01-18",
+      "description": "PAYROLL",
+      "amount": "2567.76",
+      "balance": "27355.02"
+    },
+    {
+      "date": "2025-01-18",
+      "description": "RENT",
+      "amount": "1440.76",
+      "balance": "28795.78"
+    },
+    {
+      "date": "2025-01-18",
+      "description": "AWS",
+      "amount": "2794.75",
+      "balance": "31590.53"
+    },
+    {
+      "date": "2025-01-19",
+      "description": "LOAN PMT",
+      "amount": "-2478.91",
+      "balance": "29111.62"
+    },
+    {
+      "date": "2025-01-19",
+      "description": "ACH DEPOSIT",
+      "amount": "-1949.27",
+      "balance": "27162.35"
+    },
+    {
+      "date": "2025-01-20",
+      "description": "STRIPE PAYOUT",
+      "amount": "5579.07",
+      "balance": "32741.42"
+    },
+    {
+      "date": "2025-01-20",
+      "description": "LOAN PMT",
+      "amount": "2658.65",
+      "balance": "35400.07"
+    },
+    {
+      "date": "2025-01-20",
+      "description": "PAYROLL",
+      "amount": "625.81",
+      "balance": "36025.88"
+    },
+    {
+      "date": "2025-01-21",
+      "description": "AWS",
+      "amount": "-268.85",
+      "balance": "35757.03"
+    },
+    {
+      "date": "2025-01-22",
+      "description": "LOAN PMT",
+      "amount": "-637.55",
+      "balance": "35119.48"
+    },
+    {
+      "date": "2025-01-22",
+      "description": "STRIPE PAYOUT",
+      "amount": "1856.6",
+      "balance": "36976.08"
+    },
+    {
+      "date": "2025-01-22",
+      "description": "PAYROLL",
+      "amount": "5482.43",
+      "balance": "42458.51"
+    },
+    {
+      "date": "2025-01-22",
+      "description": "CARD PURCH",
+      "amount": "-2941.16",
+      "balance": "39517.35"
+    },
+    {
+      "date": "2025-01-24",
+      "description": "CARD PURCH",
+      "amount": "-1090.43",
+      "balance": "38426.92"
+    },
+    {
+      "date": "2025-01-25",
+      "description": "CARD PURCH",
+      "amount": "2453.27",
+      "balance": "40880.19"
+    },
+    {
+      "date": "2025-01-25",
+      "description": "ACH DEPOSIT",
+      "amount": "-1510.51",
+      "balance": "39369.68"
+    },
+    {
+      "date": "2025-01-25",
+      "description": "STRIPE PAYOUT",
+      "amount": "-528.52",
+      "balance": "38841.16"
+    },
+    {
+      "date": "2025-01-25",
+      "description": "AWS",
+      "amount": "-949.44",
+      "balance": "37891.72"
+    },
+    {
+      "date": "2025-01-28",
+      "description": "ACH DEPOSIT",
+      "amount": "3311.63",
+      "balance": "41203.35"
+    },
+    {
+      "date": "2025-01-28",
+      "description": "PAYROLL",
+      "amount": "5394.48",
+      "balance": "46597.83"
+    },
+    {
+      "date": "2025-01-29",
+      "description": "PAYROLL",
+      "amount": "-3809.29",
+      "balance": "42788.54"
+    },
+    {
+      "date": "2025-01-29",
+      "description": "PAYROLL",
+      "amount": "-969.66",
+      "balance": "41818.88"
+    },
+    {
+      "date": "2025-01-30",
+      "description": "LOAN PMT",
+      "amount": "4128.97",
+      "balance": "45947.85"
+    }
+  ]
+}

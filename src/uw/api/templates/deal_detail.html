@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UnderwriteOS | Review</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/htmx.org@1.9.10"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .font-mono { font-family: 'JetBrains Mono', monospace; }
+        .htmx-indicator { display: none; }
+        .htmx-request .htmx-indicator { display: inline-block; }
+        .htmx-request.htmx-indicator { display: inline-block; }
+        .htmx-request.btn-loading { opacity: 0.7; cursor: wait; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased">
+
+    <!-- Top Navigation -->
+    <nav class="bg-white border-b border-slate-200 sticky top-0 z-30">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center gap-3">
+                    <a href="/deals" class="text-slate-400 hover:text-slate-600 transition-colors">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+                    </a>
+                    <div class="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center">
+                        <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    </div>
+                    <span class="font-bold text-xl tracking-tight text-slate-900">UnderwriteOS</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Header -->
+        <div class="mb-8">
+            <div class="flex items-center gap-3 mb-2">
+                <h1 class="text-2xl font-bold text-slate-900">Deal Review</h1>
+                <span class="inline-flex items-center rounded-md bg-amber-50 px-2.5 py-0.5 text-xs font-medium text-amber-700 ring-1 ring-inset ring-amber-600/20">Requires Attention</span>
+            </div>
+            <p class="text-slate-500">ID: <span class="font-mono text-slate-700">{{ state.deal_id }}</span> &bull; Document: <span class="font-medium text-slate-900">Q3 2024 Business Checking Statement</span></p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            
+            <!-- Left Column: Document Preview -->
+            <div class="lg:col-span1">
+                <div class="bg-white rounded-xl shadow-sm ring-1 ring-slate-900/5 overflow-hidden sticky top-24">
+                    <div class="px-4 py-3 border-b border-slate-100 bg-slate-50 flex justify-between items-center">
+                        <h3 class="text-sm font-semibold text-slate-700">Document Preview</h3>
+                        <span class="text-xs text-slate-500 bg-white px-2 py-1 rounded border border-slate-200">PDF &bull; 2 Pages</span>
+                    </div>
+                    <div class="p-4 bg-slate-100 min-h-[500px] flex flex-col items-center justify-center text-slate-400">
+                        <svg class="w-16 h-16 mb-4 text-slate-300" fill="currentColor" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm4 18H6V4h7v5h5v11z"/></svg>
+                        <p class="text-sm font-medium">Statement_061.pdf</p>
+                        <p class="text-xs mt-1">Extraction Path: <span class="font-mono text-indigo-600 bg-indigo-50 px-1.5 py-0.5 rounded">{{ state.extraction_path or 'vision' }}</span></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column: Analysis & Actions -->
+            <div class="lg:col-span2 space-y-6">
+                
+                <!-- Reconciliation Status Banner -->
+                {% if state.reconciled %}
+                <div class="bg-emerald-50 border border-emerald-200 rounded-xl p-4 flex items-start gap-3">
+                    <svg class="w-6 h-6 text-emerald-600 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    <div>
+                        <h3 class="text-sm font-semibold text-emerald-900">Reconciliation Passed</h3>
+                        <p class="text-sm text-emerald-700 mt-1">Opening balance + transactions exactly match the closing balance. No anomalies detected.</p>
+                    </div>
+                </div>
+                {% else %}
+                <div class="bg-rose-50 border border-rose-200 rounded-xl p-4 flex items-start gap-3">
+                    <svg class="w-6 h-6 text-rose-600 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    <div>
+                        <h3 class="text-sm font-semibold text-rose-900">Reconciliation Failed</h3>
+                        <p class="text-sm text-rose-700 mt-1">The extracted transactions do not mathematically reconcile with the stated closing balance.</p>
+                        <div class="mt-2 inline-flex items-center px-2.5 py-1 rounded-md bg-rose-100 text-rose-800 text-xs font-mono font-medium">
+                            Variance: ${{ state.reconcile_diff }}
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+
+                <!-- Metrics Grid -->
+                <div class="bg-white rounded-xl shadow-sm ring-1 ring-slate-900/5 p-6">
+                    <h3 class="text-sm font-semibold text-slate-900 mb-4 flex items-center gap-2">
+                        <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+                        Deterministic Risk Metrics
+                    </h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                        <div class="p-4 bg-slate-50 rounded-lg border border-slate-100">
+                            <p class="text-xs font-medium text-slate-500 uppercase tracking-wider">Total Deposits</p>
+                            <p class="text-2xl font-bold text-slate-900 mt-1">${{ state.metrics.total_deposits }}</p>
+                        </div>
+                        <div class="p-4 bg-slate-50 rounded-lg border border-slate-100">
+                            <p class="text-xs font-medium text-slate-500 uppercase tracking-wider">Avg Daily Balance</p>
+                            <p class="text-2xl font-bold text-slate-900 mt-1">${{ state.metrics.average_daily_balance }}</p>
+                        </div>
+                        <div class="p-4 bg-slate-50 rounded-lg border border-slate-100">
+                            <p class="text-xs font-medium text-slate-500 uppercase tracking-wider">DSCR</p>
+                            <p class="text-2xl font-bold text-slate-900 mt-1">{{ state.metrics.dscr }}x</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- AI Memo & Guardrails -->
+                <div class="bg-white rounded-xl shadow-sm ring-1 ring-slate-900/5 p-6">
+                    <h3 class="text-sm font-semibold text-slate-900 mb-4 flex items-center gap-2">
+                        <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                        Generated Credit Memo
+                    </h3>
+                    <div class="prose prose-sm max-w-none text-slate-600 bg-slate-50 p-4 rounded-lg border border-slate-200 font-mono text-sm leading-relaxed">
+                        {{ state.memo }}
+                    </div>
+
+                    {% if state.guardrail_violations %}
+                    <div class="mt-4 p-4 bg-rose-50 border border-rose-200 rounded-lg">
+                        <div class="flex items-center gap-2 mb-2">
+                            <svg class="w-5 h-5 text-rose-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                            <h4 class="text-sm font-semibold text-rose-900">Guardrail Violations Detected</h4>
+                        </div>
+                        <ul class="list-disc list-inside text-sm text-rose-700 space-y-1">
+                            {% for v in state.guardrail_violations %}
+                            <li>{{ v }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    {% endif %}
+                </div>
+
+                <!-- Action Footer -->
+                <div class="bg-white rounded-xl shadow-sm ring-1 ring-slate-900/5 p-6 border-t-4 border-t-indigo-500" id="action-buttons">
+                    <h3 class="text-sm font-semibold text-slate-900 mb-4">Underwriter Decision</h3>
+                    <div class="flex flex-wrap gap-3">
+                        <button hx-post="/deals/{{ state.deal_id }}/approve" 
+                                hx-target="#action-buttons"
+                                hx-indicator="#approve-spinner"
+                                class="btn-loading inline-flex items-center px-5 py-2.5 border border-transparent rounded-lg shadow-sm text-sm font-semibold text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 transition-all">
+                            <svg id="approve-spinner" class="htmx-indicator animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+                            Approve & Send to Committee
+                        </button>
+                        
+                        <button hx-post="/deals/{{ state.deal_id }}/reject" 
+                                hx-target="#action-buttons"
+                                hx-indicator="#reject-spinner"
+                                class="btn-loading inline-flex items-center px-5 py-2.5 border border-slate-300 rounded-lg shadow-sm text-sm font-semibold text-slate-700 bg-white hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-500 transition-all">
+                            <svg id="reject-spinner" class="htmx-indicator animate-spin -ml-1 mr-2 h-4 w-4 text-slate-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+                            Reject / Request Changes
+                        </button>
+                    and a "Request More Info" button for completeness.
+                        <button class="inline-flex items-center px-5 py-2.5 border border-slate-300 rounded-lg shadow-sm text-sm font-semibold text-slate-700 bg-white hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-500 transition-all">
+                            Request More Info
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+</body>
+</html>
