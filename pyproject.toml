@@ -58,3 +58,6 @@ testpaths = ["tests"]
 pythonpath = ["src"]
 addopts = "--cov=src/uw --cov-report=term-missing --cov-fail-under=0"
 
+
+[tool.uv.build]
+module-name = "uw"
