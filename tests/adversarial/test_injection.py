@@ -139,4 +139,6 @@ class TestDegradation:
         ext = output["extraction"]
 
         assert len(ext.transactions) >= 1, "Total extraction failure on degraded doc."
-        print(f"? Degraded doc still extracted {len(ext.transactions)}/5 transactions via {output['path']}")
+        print(
+            f"? Degraded doc still extracted {len(ext.transactions)}/5 transactions via {output['path']}"
+        )
