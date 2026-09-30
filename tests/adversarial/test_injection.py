@@ -7,14 +7,15 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+if not os.environ.get("OPENAI_API_KEY"):
+    pytest.skip(
+        "OPENAI_API_KEY not set - skipping LLM-dependent tests",
+        allow_module_level=True,
+    )
+
 from uw.extraction.pipeline import extract_from_pdf  # noqa: E402
 from uw.guardrails.numbers import check_memo  # noqa: E402
 from uw.risk.reconcile import reconcile  # noqa: E402
-
-pytestmark = pytest.mark.skipif(
-    not os.environ.get("OPENAI_API_KEY") or os.environ.get("OPENAI_API_KEY") == "",
-    reason="OPENAI_API_KEY not set - skipping LLM-dependent tests",
-)
 
 ADVERSARIAL_DIR = Path("data/synthetic/adversarial")
 TEXT_MODEL = os.environ.get("TEXT_MODEL", "qwen/qwen3.7-flash")
@@ -138,6 +139,4 @@ class TestDegradation:
         ext = output["extraction"]
 
         assert len(ext.transactions) >= 1, "Total extraction failure on degraded doc."
-        print(
-            f"? Degraded doc still extracted {len(ext.transactions)}/5 transactions via {output['path']}"
-        )
+        print(f"? Degraded doc still extracted {len(ext.transactions)}/5 transactions via {output['path']}")

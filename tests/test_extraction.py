@@ -2,10 +2,11 @@ import os
 
 import pytest
 
-pytestmark = pytest.mark.skipif(
-    not os.environ.get("OPENAI_API_KEY") or os.environ.get("OPENAI_API_KEY") == "",
-    reason="OPENAI_API_KEY not set - skipping LLM-dependent tests",
-)
+if not os.environ.get("OPENAI_API_KEY"):
+    pytest.skip(
+        "OPENAI_API_KEY not set - skipping LLM-dependent tests",
+        allow_module_level=True,
+    )
 
 from uw.extraction.pipeline import extract_from_pdf  # noqa: E402
 from uw.risk.reconcile import reconcile  # noqa: E402
