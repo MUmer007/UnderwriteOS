@@ -9,6 +9,22 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: uw
+          POSTGRES_PASSWORD: uw
+          POSTGRES_DB: uw
+        ports:
+          - 5433:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -24,11 +40,19 @@ jobs:
       - name: Install dependencies
         run: uv sync --frozen
 
-      - name: Run Ruff (Lint & Format check)
-        run: uv run ruff check . && uv run ruff format --check .
+      - name: Run Ruff (Lint)
+        run: uv run ruff check .
 
-      - name: Run MyPy (Type checking)
-        run: uv run mypy src/uw --ignore-missing-imports || true
+      - name: Run Ruff (Format check)
+        run: uv run ruff format --check .
 
       - name: Run Pytest
-        run: uv run pytest
+        env:
+          DATABASE_URL: postgresql+psycopg://uw:uw@localhost:5433/uw
+          OPENAI_BASE_URL: https://openrouter.ai/api/v1
+          OPENAI_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+          TEXT_MODEL: qwen/qwen3.7-flash
+          VISION_MODEL: qwen/qwen3.7-flash
+          SMTP_HOST: localhost
+          SMTP_PORT: 1025
+        run: uv run pytest -v

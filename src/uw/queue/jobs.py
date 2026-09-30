@@ -1,7 +1,10 @@
+from datetime import datetime, timedelta
+
 from sqlalchemy import select, update
 from sqlalchemy.orm import Session
+
 from uw.models import Job, JobStatus
-from datetime import datetime, timedelta
+
 
 def claim_job(session: Session) -> Job | None:
     """Atomically claims a queued job using FOR UPDATE SKIP LOCKED."""
@@ -14,7 +17,7 @@ def claim_job(session: Session) -> Job | None:
         .limit(1)
     )
     job = session.execute(stmt).scalar_one_or_none()
-    
+
     if job:
         job.status = JobStatus.running
         job.locked_at = datetime.utcnow()
@@ -22,6 +25,7 @@ def claim_job(session: Session) -> Job | None:
         session.commit()
         session.refresh(job)
     return job
+
 
 def requeue_stale_jobs(session: Session, timeout_seconds: int = 300):
     """Reaper: requeues jobs stuck in 'running' past a timeout."""

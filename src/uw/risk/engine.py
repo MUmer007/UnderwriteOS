@@ -1,16 +1,18 @@
 from decimal import Decimal
 from statistics import mean, pstdev
-from typing import List, Dict, Any
+from typing import Any
 
-def average_daily_balance(daily_closing: List[Decimal]) -> Decimal:
+
+def average_daily_balance(daily_closing: list[Decimal]) -> Decimal:
     """Calculates the average of daily closing balances."""
     if not daily_closing:
         return Decimal("0")
     return sum(daily_closing, Decimal("0")) / len(daily_closing)
 
-def revenue_volatility(monthly_deposits: List[Decimal]) -> Decimal:
+
+def revenue_volatility(monthly_deposits: list[Decimal]) -> Decimal:
     """
-    Coefficient of variation of monthly deposits. 
+    Coefficient of variation of monthly deposits.
     Needs >= 3 months of data to be meaningful.
     """
     if len(monthly_deposits) < 3:
@@ -22,6 +24,7 @@ def revenue_volatility(monthly_deposits: List[Decimal]) -> Decimal:
     std_dev = Decimal(str(pstdev([float(d) for d in monthly_deposits])))
     return std_dev / Decimal(str(m))
 
+
 def dscr(cash_flow_available: Decimal, annual_debt_service: Decimal) -> Decimal:
     """
     Debt Service Coverage Ratio (CFADS / debt service).
@@ -31,7 +34,8 @@ def dscr(cash_flow_available: Decimal, annual_debt_service: Decimal) -> Decimal:
         return Decimal("Infinity")
     return cash_flow_available / annual_debt_service
 
-def compute_risk_metrics(transactions: List[Dict[str, Any]]) -> Dict[str, Decimal]:
+
+def compute_risk_metrics(transactions: list[dict[str, Any]]) -> dict[str, Decimal]:
     """
     Simplified risk metric computation for the portfolio system.
     Assumptions (stated explicitly for interviewers):
@@ -42,26 +46,30 @@ def compute_risk_metrics(transactions: List[Dict[str, Any]]) -> Dict[str, Decima
     total_deposits = Decimal("0")
     total_debt_service = Decimal("0")
     daily_balances = []
-    
+
     for txn in transactions:
         amt = Decimal(str(txn["amount"]))
         desc = txn["description"].upper()
-        
+
         if amt > 0 and any(kw in desc for kw in ["DEPOSIT", "PAYOUT", "PAYROLL"]):
             total_deposits += amt
-            
+
         if "LOAN PMT" in desc or "DEBT" in desc:
             total_debt_service += abs(amt)
-            
+
         if txn.get("balance") is not None:
             daily_balances.append(Decimal(str(txn["balance"])))
 
-    cash_flow_available = total_deposits # Simplified CFADS for harness
-    
+    cash_flow_available = total_deposits  # Simplified CFADS for harness
+
     return {
         "total_deposits": total_deposits,
         "total_debt_service": total_debt_service,
-        "average_daily_balance": average_daily_balance(daily_balances) if daily_balances else Decimal("0"),
+        "average_daily_balance": average_daily_balance(daily_balances)
+        if daily_balances
+        else Decimal("0"),
         "dscr": dscr(cash_flow_available, total_debt_service),
-        "revenue_volatility": revenue_volatility([total_deposits] * 3) # Dummy monthly data for harness validation
+        "revenue_volatility": revenue_volatility(
+            [total_deposits] * 3
+        ),  # Dummy monthly data for harness validation
     }

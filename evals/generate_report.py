@@ -2,52 +2,55 @@ import json
 import os
 from datetime import datetime
 
+
 def generate_report():
     report_path = "evals/reports/latest_run.json"
     if not os.path.exists(report_path):
         print("? No evaluation data found. Run `uv run python evals/run.py` first.")
         return
-        
-    with open(report_path, "r") as f:
+
+    with open(report_path) as f:
         results = json.load(f)
-        
+
     valid_results = [r for r in results if "error" not in r]
     if not valid_results:
         print("? No valid results in the report.")
         return
-        
+
     # 1. Aggregate Metrics
     total_docs = len(valid_results)
     avg_f1 = sum(r["txn_f1"] for r in valid_results) / total_docs
-    
+
     latencies = sorted([r["latency"] for r in valid_results])
-    p50_latency = latencies[len(latencies)//2]
-    p90_latency = latencies[int(len(latencies)*0.9)]
-    
+    p50_latency = latencies[len(latencies) // 2]
+    p90_latency = latencies[int(len(latencies) * 0.9)]
+
     total_prompt_tokens = sum(r.get("prompt_tokens", 0) for r in valid_results)
     total_comp_tokens = sum(r.get("completion_tokens", 0) for r in valid_results)
-    
+
     # 2. Tamper Detection
     tampered = [r for r in valid_results if r.get("is_tampered_truth")]
     tampered_caught = sum(1 for r in tampered if not r.get("reconciled", True))
     tamper_rate = tampered_caught / len(tampered) if tampered else 0
-    
+
     # 3. Wrong Type Rejection
     wrong_type = [r for r in valid_results if r.get("doc_type_truth") == "invoice"]
-    wrong_type_rejected = sum(1 for r in wrong_type if r.get("doc_type_extracted") != "bank_statement")
+    wrong_type_rejected = sum(
+        1 for r in wrong_type if r.get("doc_type_extracted") != "bank_statement"
+    )
     wrong_type_rate = wrong_type_rejected / len(wrong_type) if wrong_type else 0
-    
+
     # 4. Path Accuracy
     text_path = [r for r in valid_results if r.get("path") == "text"]
     vision_path = [r for r in valid_results if r.get("path") == "vision"]
-    
+
     text_f1 = sum(r["txn_f1"] for r in text_path) / len(text_path) if text_path else 0
     vision_f1 = sum(r["txn_f1"] for r in vision_path) / len(vision_path) if vision_path else 0
-    
+
     # 5. Balance Exact Match
     opening_matches = sum(1 for r in valid_results if r.get("opening_match"))
     closing_matches = sum(1 for r in valid_results if r.get("closing_match"))
-    
+
     # Generate Markdown
     md = f"""# UnderwriteOS Evaluation Report
 **Generated:** {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}
@@ -71,8 +74,8 @@ def generate_report():
 | **Vision (PyMuPDF raster)** | {len(vision_path)} | {vision_f1:.2%} |
 
 ## ?? Reconciliation & Guardrails
-- **Opening Balance Exact Match:** {opening_matches}/{total_docs} ({opening_matches/total_docs:.2%})
-- **Closing Balance Exact Match:** {closing_matches}/{total_docs} ({closing_matches/total_docs:.2%})
+- **Opening Balance Exact Match:** {opening_matches}/{total_docs} ({opening_matches / total_docs:.2%})
+- **Closing Balance Exact Match:** {closing_matches}/{total_docs} ({closing_matches / total_docs:.2%})
 - **Guardrail Status:** Active. All memos are validated against deterministic metrics. Hallucinated numbers and banned phrases (e.g., "approved", "interest rate") are blocked and flagged for review.
 
 ## ?? Error Analysis (Top Failure Modes)
@@ -89,13 +92,14 @@ def generate_report():
 ---
 *UnderwriteOS Core Principle: LLMs only extract and narrate; all risk math is deterministic, audited, and tested.*
 """
-    
+
     output_path = "evals/reports/final_report.md"
     with open(output_path, "w", encoding="utf-8") as f:
         f.write(md)
-        
-    print(f"? Evaluation report generated successfully!")
+
+    print("? Evaluation report generated successfully!")
     print(f"?? View it at: {output_path}")
+
 
 if __name__ == "__main__":
     generate_report()

@@ -1,5 +1,5 @@
-import os
 from pathlib import Path
+
 from dotenv import load_dotenv
 
 # Automatically load .env file before any tests run
